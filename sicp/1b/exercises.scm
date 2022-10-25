@@ -3,6 +3,9 @@
 (define (square x)
     (* x x))
 
+(define (cube x)
+  (* x x x))
+
 (define (average x y)
 (/ (+ x y) 2))
 
@@ -13,6 +16,14 @@
     (if (< (abs (- (square guess) x)) 0.001)
         guess
         (good-enough (improve guess x) x)))
+
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+
+(define (good-enough-cube? guess x)
+  (< (abs (- (cube guess) x)) 0.001))
+
 
 (define (sqrt-iter guess x)
     (good-enough guess x))
@@ -42,3 +53,24 @@
 ;because small numbers get even smaller when squared
 ;and the base case returns the unsquared guess
 ;making it incorrect as the numbers get smaller than 1
+
+;1.8
+
+(/ 10 2)
+(define (improve-cube guess x)
+  (/ 
+    (+ 
+      (/ x (square guess)) 
+      (* 2 guess)) 
+    3))
+
+(define (sqcb-iter guess x)
+  (display guess)
+  (newline)
+  (if (good-enough-cube? guess x)
+      guess
+      (sqcb-iter (improve-cube guess x) x)))
+
+(sqcb-iter 1.0 64)
+
+
